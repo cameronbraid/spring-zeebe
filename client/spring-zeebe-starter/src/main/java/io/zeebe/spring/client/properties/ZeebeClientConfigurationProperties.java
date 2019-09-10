@@ -2,6 +2,7 @@ package io.zeebe.spring.client.properties;
 
 import static io.zeebe.spring.client.config.ZeebeClientSpringConfiguration.DEFAULT;
 
+import io.zeebe.client.CredentialsProvider;
 import java.time.Duration;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -25,6 +26,9 @@ public class ZeebeClientConfigurationProperties implements ZeebeClientProperties
 
     private String contactPoint = DEFAULT.getBrokerContactPoint();
     private Duration requestTimeout = DEFAULT.getDefaultRequestTimeout();
+    private boolean plaintextConnectionEnabled = DEFAULT.isPlaintextConnectionEnabled();
+    private String caCertificatePath = DEFAULT.getCaCertificatePath();
+    private CredentialsProvider credentialsProvider = DEFAULT.getCredentialsProvider();
   }
 
   @Data
@@ -49,6 +53,21 @@ public class ZeebeClientConfigurationProperties implements ZeebeClientProperties
   @Override
   public Duration getDefaultRequestTimeout() {
     return broker.getRequestTimeout();
+  }
+
+  @Override
+  public boolean isPlaintextConnectionEnabled() {
+    return broker.isPlaintextConnectionEnabled();
+  }
+
+  @Override
+  public String getCaCertificatePath() {
+    return broker.getCaCertificatePath();
+  }
+
+  @Override
+  public CredentialsProvider getCredentialsProvider() {
+    return broker.getCredentialsProvider();
   }
 
   @Override
@@ -80,5 +99,5 @@ public class ZeebeClientConfigurationProperties implements ZeebeClientProperties
   public Duration getDefaultMessageTimeToLive() {
     return message.getTimeToLive();
   }
-  
+
 }
